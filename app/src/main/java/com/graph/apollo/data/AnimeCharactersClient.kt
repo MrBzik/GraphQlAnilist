@@ -1,4 +1,4 @@
-package com.graph.apollo.domain
+package com.graph.apollo.data
 
 import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem

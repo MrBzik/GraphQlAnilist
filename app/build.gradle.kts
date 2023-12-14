@@ -1,9 +1,12 @@
 val apolloVersion = "4.0.0-beta.4"
+val hiltVersion = "2.49"
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.apollographql.apollo3").version("4.0.0-beta.4")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 apollo {
@@ -77,4 +80,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
     implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
+
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }

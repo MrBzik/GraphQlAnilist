@@ -1,4 +1,4 @@
-package com.graph.apollo.domain
+package com.graph.apollo.data
 
 import com.apollographql.apollo3.ApolloClient
 import com.graph.CharactersPageQuery
@@ -8,6 +8,7 @@ import com.graph.apollo.domain.mappers.toAnimeCharacterDescription
 import com.graph.apollo.domain.mappers.toAnimeCharacterPageItem
 import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
+import com.graph.apollo.utils.Logger
 import com.graph.type.CharacterSort
 
 class ApolloAnimeCharactersClient(
@@ -39,9 +40,14 @@ class ApolloAnimeCharactersClient(
 
     override suspend fun getCharactersByName(search: String): AnimeCharacterDescription? {
 
-        return client
+
+        val response = client
             .query(SingleCharacterByNameQuery())
             .execute()
-            .data?.Character?.toAnimeCharacterDescription()
+
+        Logger.log("${response.exception}")
+
+        return response.data?.Character?.toAnimeCharacterDescription()
+
     }
 }
