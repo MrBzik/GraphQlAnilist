@@ -16,7 +16,7 @@ object AppModule {
     fun providesApolloClient() : ApolloClient {
 
         return ApolloClient.Builder()
-            .serverUrl("https://graphql.anilist.co")
+            .serverUrl("https://apollo-fullstack-tutorial.herokuapp.com/graphql")
             .build()
 
     }

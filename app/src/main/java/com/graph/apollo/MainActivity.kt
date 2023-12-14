@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                             .weight(1f)
                             .fillMaxWidth()) {
 
-                            AsyncImage(model = characterState.value.imageUrl, contentDescription = "")
+//                            AsyncImage(model = characterState.value.imageUrl, contentDescription = "")
                         }
 
                         Spacer(modifier = Modifier.height(25.dp))
