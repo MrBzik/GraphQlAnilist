@@ -1,0 +1,15 @@
+package com.graph.apollo.domain
+
+import com.graph.apollo.domain.models.AnimeCharacterDescription
+import com.graph.apollo.domain.models.AnimeCharacterPageItem
+import com.graph.type.CharacterSort
+
+interface AnimeCharactersClient {
+
+    suspend fun getCharactersPage(page: Int, perPage: Int, sort: CharacterSort, search: String) : List<AnimeCharacterPageItem>
+
+    suspend fun getCharacterById(characterId: Int) : AnimeCharacterDescription?
+
+    suspend fun getCharactersByName(search: String) : AnimeCharacterDescription?
+
+}

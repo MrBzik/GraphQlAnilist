@@ -1,0 +1,23 @@
+query SingleCharacterByName($search: String) {
+    Character(search: $search) {
+        name {
+            native
+        }
+        description
+        image {
+            large
+        }
+    }
+}
+
+query SingleCharacterById($characterId: Int) {
+    Character(id: $characterId) {
+        name {
+            native
+        }
+        description
+        image {
+            large
+        }
+    }
+}
