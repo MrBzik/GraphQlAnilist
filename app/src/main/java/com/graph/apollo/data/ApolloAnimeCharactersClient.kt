@@ -23,8 +23,6 @@ class ApolloAnimeCharactersClient(
         search: String
     ): List<AnimeCharacterPageItem> {
 
-        Logger.log("SEARCHING: $page, $perPage, $search")
-
         val response =  client
             .query(CharactersPageQuery(
                 page = Optional.present(page),
@@ -34,11 +32,6 @@ class ApolloAnimeCharactersClient(
             ))
             .execute()
 
-        Logger.log(response.exception?.stackTraceToString() ?: "NO EXCEPTION")
-
-        Logger.log("size: ${response.data?.Page?.characters?.size}")
-
-
         return response.data?.Page?.characters?.mapNotNull {
             it?.toAnimeCharacterPageItem()
         } ?: emptyList()
@@ -46,22 +39,22 @@ class ApolloAnimeCharactersClient(
 
     override suspend fun getCharacterById(characterId: Int): AnimeCharacterDescription? {
         return client
-            .query(SingleCharacterByIdQuery())
+            .query(SingleCharacterByIdQuery(Optional.present(characterId)))
             .execute()
             .data?.Character?.toAnimeCharacterDescription()
 
     }
 
-    override suspend fun getCharactersByName(search: String): AnimeCharacterDescription? {
-
-
-        val response = client
-            .query(SingleCharacterByNameQuery(Optional.present(search)))
-            .execute()
-
-        Logger.log("${response.exception}")
-
-        return response.data?.Character?.toAnimeCharacterDescription()
-
-    }
+//    override suspend fun getCharactersByName(search: String): AnimeCharacterDescription? {
+//
+//
+//        val response = client
+//            .query(SingleCharacterByNameQuery(Optional.present(search)))
+//            .execute()
+//
+//        Logger.log("${response.exception}")
+//
+//        return response.data?.Character?.toAnimeCharacterDescription()
+//
+//    }
 }

@@ -4,5 +4,6 @@ data class AnimeCharacterDescription (
     val nameNative : String = "",
     val nameFull: String = "",
     val imageUrl : String? = null,
-    val description : String = ""
+    val description : String = "",
+    val alternativeNames : List<String?>? = null
 )

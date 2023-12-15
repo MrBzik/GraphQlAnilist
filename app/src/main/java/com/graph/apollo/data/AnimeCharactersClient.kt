@@ -10,6 +10,5 @@ interface AnimeCharactersClient {
 
     suspend fun getCharacterById(characterId: Int) : AnimeCharacterDescription?
 
-    suspend fun getCharactersByName(search: String) : AnimeCharacterDescription?
 
 }

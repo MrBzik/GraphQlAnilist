@@ -65,6 +65,7 @@ dependencies {
 
     val paging_version = "3.2.1"
     val room_version = "2.6.1"
+    val voyagerVersion = "1.0.0"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
@@ -102,4 +103,7 @@ dependencies {
     implementation ("androidx.room:room-ktx:$room_version")
     ksp ("androidx.room:room-compiler:$room_version")
     implementation ("androidx.room:room-paging:$room_version")
+
+    //Voyager Nav
+    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
 }

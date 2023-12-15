@@ -34,15 +34,16 @@ fun SearchField(
             value = text,
             onValueChange = { text = it },
             label = { Text("Найти персонажа") },
-            singleLine = true
+            singleLine = true,
+            trailingIcon = {
+                IconButton(onClick = {
+                    onSearchButtonClick(text)
+                }) {
+
+                    Icon(painter = rememberVectorPainter(image = Icons.Filled.Search), contentDescription = "Search")
+                }
+            }
         )
-
-        IconButton(onClick = {
-            onSearchButtonClick(text)
-        }) {
-
-            Icon(painter = rememberVectorPainter(image = Icons.Filled.Search), contentDescription = "Search")
-        }
     }
 }
 

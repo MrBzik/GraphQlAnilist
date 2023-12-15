@@ -12,12 +12,22 @@ query SingleCharacterByName($search: String) {
 
 query SingleCharacterById($characterId: Int) {
     Character(id: $characterId) {
-        name {
-            native
+        age
+        bloodType
+        dateOfBirth {
+            day
+            month
+            year
         }
         description
+        gender
         image {
             large
+        }
+        name {
+            native
+            full
+            alternative
         }
     }
 }

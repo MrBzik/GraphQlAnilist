@@ -19,20 +19,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AnimeCharactersViewModel @Inject constructor(
+class CharactersListViewModel @Inject constructor(
     private val charactersClient: AnimeCharactersClient
 ) : ViewModel() {
 
-    private val _selectedCharacter = MutableStateFlow(AnimeCharacterDescription())
-    val selectedCharacter = _selectedCharacter.asStateFlow()
 
     private val searchQuery = MutableStateFlow("")
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val charactersPagingFlow = searchQuery.flatMapLatest { query ->
@@ -59,16 +55,6 @@ class AnimeCharactersViewModel @Inject constructor(
                 CharactersPagingSource(charactersLoader)
             }
         ).flow
-
-    }
-
-    fun getNewCharacter(query: String) = viewModelScope.launch {
-
-        charactersClient.getCharactersByName(query)?.let {
-
-            Logger.log("GOT? : ${it.imageUrl}")
-
-            _selectedCharacter.value = it }
 
     }
 

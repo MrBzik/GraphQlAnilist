@@ -10,18 +10,10 @@ fun SingleCharacterByIdQuery.Character.toAnimeCharacterDescription(): AnimeChara
     return AnimeCharacterDescription(
         nameNative = name?.native ?: "Unknown",
         imageUrl = image?.large,
-        description = description ?: "Nothing to say"
+        description = description ?: "Nothing to say",
+        alternativeNames = name?.alternative
     )
 }
-
-fun SingleCharacterByNameQuery.Character.toAnimeCharacterDescription(): AnimeCharacterDescription {
-    return AnimeCharacterDescription(
-        nameNative = name?.native ?: "Nobody",
-        imageUrl = image?.large,
-        description = description ?: "Nothing to say"
-    )
-}
-
 
 fun CharactersPageQuery.Character.toAnimeCharacterPageItem() : AnimeCharacterPageItem {
     return AnimeCharacterPageItem(
