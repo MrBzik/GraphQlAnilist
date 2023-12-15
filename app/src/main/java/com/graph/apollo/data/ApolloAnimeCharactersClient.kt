@@ -1,6 +1,7 @@
 package com.graph.apollo.data
 
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Optional
 import com.graph.CharactersPageQuery
 import com.graph.SingleCharacterByIdQuery
 import com.graph.SingleCharacterByNameQuery
@@ -22,12 +23,25 @@ class ApolloAnimeCharactersClient(
         search: String
     ): List<AnimeCharacterPageItem> {
 
-        return client
-            .query(CharactersPageQuery())
+        Logger.log("SEARCHING: $page, $perPage, $search")
+
+        val response =  client
+            .query(CharactersPageQuery(
+                page = Optional.present(page),
+                perPage = Optional.present(perPage),
+                sort = Optional.present(null),
+                search = Optional.present(search)
+            ))
             .execute()
-            .data?.Page?.characters?.mapNotNull {
-                it?.toAnimeCharacterPageItem()
-            } ?: emptyList()
+
+        Logger.log(response.exception?.stackTraceToString() ?: "NO EXCEPTION")
+
+        Logger.log("size: ${response.data?.Page?.characters?.size}")
+
+
+        return response.data?.Page?.characters?.mapNotNull {
+            it?.toAnimeCharacterPageItem()
+        } ?: emptyList()
     }
 
     override suspend fun getCharacterById(characterId: Int): AnimeCharacterDescription? {
@@ -42,7 +56,7 @@ class ApolloAnimeCharactersClient(
 
 
         val response = client
-            .query(SingleCharacterByNameQuery())
+            .query(SingleCharacterByNameQuery(Optional.present(search)))
             .execute()
 
         Logger.log("${response.exception}")

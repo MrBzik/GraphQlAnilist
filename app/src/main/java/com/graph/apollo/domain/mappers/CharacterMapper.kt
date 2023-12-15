@@ -8,7 +8,7 @@ import com.graph.apollo.domain.models.AnimeCharacterPageItem
 
 fun SingleCharacterByIdQuery.Character.toAnimeCharacterDescription(): AnimeCharacterDescription {
     return AnimeCharacterDescription(
-        name = name?.native ?: "Unknown",
+        nameNative = name?.native ?: "Unknown",
         imageUrl = image?.large,
         description = description ?: "Nothing to say"
     )
@@ -16,7 +16,7 @@ fun SingleCharacterByIdQuery.Character.toAnimeCharacterDescription(): AnimeChara
 
 fun SingleCharacterByNameQuery.Character.toAnimeCharacterDescription(): AnimeCharacterDescription {
     return AnimeCharacterDescription(
-        name = name?.native ?: "Nobody",
+        nameNative = name?.native ?: "Nobody",
         imageUrl = image?.large,
         description = description ?: "Nothing to say"
     )
@@ -28,7 +28,8 @@ fun CharactersPageQuery.Character.toAnimeCharacterPageItem() : AnimeCharacterPag
         id = id,
         age = age ?: "Unknown",
         gender = gender ?: "Unknown",
-        name = name?.native ?: "Unknown",
-        imageUrl = image?.medium
+        name = name?.full ?: "Unknown",
+        imageUrl = image?.medium,
+        favourites = favourites ?: 0
     )
 }

@@ -3,13 +3,14 @@ query CharactersPage($page: Int, $perPage: Int, $sort: [CharacterSort], $search:
         characters(sort: $sort, search: $search) {
             id
             name {
-                native
+                full
             }
             image {
                 medium
             }
             age
             gender
+            favourites
         }
     }
 }

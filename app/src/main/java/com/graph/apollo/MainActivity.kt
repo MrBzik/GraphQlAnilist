@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -20,10 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import com.graph.apollo.presentation.AnimeCharactersViewModel
+import com.graph.apollo.ui.components.CharacterPreview
 import com.graph.apollo.ui.components.SearchField
 import com.graph.apollo.ui.theme.ApolloTheme
+import com.graph.apollo.utils.Logger
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +41,8 @@ class MainActivity : ComponentActivity() {
             val charactersViewModel = hiltViewModel<AnimeCharactersViewModel>()
 
             val characterState = charactersViewModel.selectedCharacter.collectAsState()
+
+            val charactersPagingFlow = charactersViewModel.charactersPagingFlow.collectAsLazyPagingItems()
 
 
             ApolloTheme {
@@ -48,18 +56,33 @@ class MainActivity : ComponentActivity() {
 
                     Column (modifier = Modifier.fillMaxSize()) {
 
-                        Box (modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()) {
-
-                            AsyncImage(model = characterState.value.imageUrl, contentDescription = "")
-                        }
+                        SearchField(
+                            onSearchButtonClick = charactersViewModel::updateSearchQuery
+                        )
 
                         Spacer(modifier = Modifier.height(25.dp))
 
-                        SearchField(
-                            onSearchButtonClick = (charactersViewModel::getNewCharacter)
-                        )
+
+                        LazyColumn(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp)
+                            .weight(1f)){
+
+
+                            items(count = charactersPagingFlow.itemCount, key = charactersPagingFlow.itemKey {
+                                it.id
+                            }){ index ->
+                                charactersPagingFlow[index]?.let {
+                                    CharacterPreview(character = it,
+                                        onCharacterClick = {
+
+
+
+                                    })
+                                    Spacer(modifier = Modifier.height(25.dp))
+                                }
+                            }
+                        }
                     }
                 }
             }

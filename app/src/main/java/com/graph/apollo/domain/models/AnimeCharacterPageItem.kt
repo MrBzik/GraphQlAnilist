@@ -5,7 +5,8 @@ data class AnimeCharacterPageItem(
     val age : String,
     val gender : String,
     val name : String,
-    val imageUrl : String?
+    val imageUrl : String?,
+    val favourites : Int
 )
 
 

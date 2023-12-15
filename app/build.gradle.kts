@@ -5,8 +5,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.apollographql.apollo3").version("4.0.0-beta.4")
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 apollo {
@@ -63,6 +63,9 @@ android {
 
 dependencies {
 
+    val paging_version = "3.2.1"
+    val room_version = "2.6.1"
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
@@ -81,10 +84,22 @@ dependencies {
 
     implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
 
+
+    // Dagger
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    kapt("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    kapt("androidx.hilt:hilt-compiler:1.1.0")
+    ksp ("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    ksp ("androidx.hilt:hilt-compiler:1.1.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
 
+    // Coil
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    //Paging
+    implementation ("androidx.paging:paging-compose:$paging_version")
+    implementation ("androidx.paging:paging-runtime-ktx:$paging_version")
+
+    // Room
+    implementation ("androidx.room:room-ktx:$room_version")
+    ksp ("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-paging:$room_version")
 }

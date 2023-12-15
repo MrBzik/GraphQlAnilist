@@ -25,7 +25,7 @@ fun SearchField(
     onSearchButtonClick : (query : String) -> Unit = {}
 ) {
     var text by remember {
-        mutableStateOf("Text")
+        mutableStateOf("")
     }
 
     Row (modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
