@@ -6,29 +6,29 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.graph.apollo.data.AnimeCharactersClient
+import com.graph.apollo.data.remote.AnimeCharactersClient
 import com.graph.apollo.domain.CharactersPageLoader
 import com.graph.apollo.domain.CharactersPagingSource
-import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
-import com.graph.apollo.utils.Logger
+import com.graph.apollo.usecases.UseCaseGetLastSearchQuery
+import com.graph.apollo.usecases.UseCaseSaveLastSearchQuery
 import com.graph.type.CharacterSort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersListViewModel @Inject constructor(
-    private val charactersClient: AnimeCharactersClient
+    private val charactersClient: AnimeCharactersClient,
+    private val getLastSearchQuery: UseCaseGetLastSearchQuery,
+    private val saveLastSearchQuery: UseCaseSaveLastSearchQuery
 ) : ViewModel() {
 
 
-    private val searchQuery = MutableStateFlow("Rem")
+    private val searchQuery = MutableStateFlow(getLastSearchQuery())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val charactersPagingFlow = searchQuery.flatMapLatest { query ->
@@ -61,8 +61,8 @@ class CharactersListViewModel @Inject constructor(
 
     fun updateSearchQuery(value : String) {
         searchQuery.value = value
+        saveLastSearchQuery(value)
     }
-
 
     fun getSearchQuery() = searchQuery.value
 

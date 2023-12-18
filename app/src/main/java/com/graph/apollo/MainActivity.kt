@@ -3,8 +3,10 @@ package com.graph.apollo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -38,9 +40,10 @@ class MainActivity : ComponentActivity() {
 
                     TabNavigator(CharactersListTab) {
                         Scaffold(
-                            content = {
-                                it
-                                CurrentTab()
+                            content = { padding ->
+                                Box(modifier = Modifier.padding(bottom = padding.calculateBottomPadding())) {
+                                    CurrentTab()
+                                }
                             },
                             bottomBar = {
                                 NavigationBar() {

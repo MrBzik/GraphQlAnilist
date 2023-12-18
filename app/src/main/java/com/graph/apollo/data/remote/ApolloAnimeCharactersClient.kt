@@ -1,15 +1,13 @@
-package com.graph.apollo.data
+package com.graph.apollo.data.remote
 
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Optional
 import com.graph.CharactersPageQuery
 import com.graph.SingleCharacterByIdQuery
-import com.graph.SingleCharacterByNameQuery
 import com.graph.apollo.domain.mappers.toAnimeCharacterDescription
 import com.graph.apollo.domain.mappers.toAnimeCharacterPageItem
 import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
-import com.graph.apollo.utils.Logger
 import com.graph.type.CharacterSort
 
 class ApolloAnimeCharactersClient(
