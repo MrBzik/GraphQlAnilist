@@ -2,7 +2,9 @@ package com.graph.apollo.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.room.Room
 import com.apollographql.apollo3.ApolloClient
+import com.graph.apollo.data.local.AniDatabase
 import com.graph.apollo.utils.SharedPref
 import dagger.Module
 import dagger.Provides
@@ -25,6 +27,19 @@ object AppModule {
 
         return ApolloClient.Builder()
             .serverUrl("https://graphql.anilist.co")
+            .build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun providesDatabase(@ApplicationContext context: Context) : AniDatabase {
+        return Room.databaseBuilder(
+            context,
+            AniDatabase::class.java,
+            "anime_database"
+        )
+            .fallbackToDestructiveMigration()
             .build()
     }
 

@@ -6,6 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.graph.apollo.data.local.AniDatabase
+import com.graph.apollo.data.local.entities.EntityCharacter
 import com.graph.apollo.data.remote.AnimeCharactersClient
 import com.graph.apollo.domain.CharactersPageLoader
 import com.graph.apollo.domain.CharactersPagingSource
@@ -14,17 +16,20 @@ import com.graph.apollo.usecases.UseCaseGetLastSearchQuery
 import com.graph.apollo.usecases.UseCaseSaveLastSearchQuery
 import com.graph.type.CharacterSort
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersListViewModel @Inject constructor(
     private val charactersClient: AnimeCharactersClient,
     private val getLastSearchQuery: UseCaseGetLastSearchQuery,
-    private val saveLastSearchQuery: UseCaseSaveLastSearchQuery
+    private val saveLastSearchQuery: UseCaseSaveLastSearchQuery,
+    private val database: AniDatabase
 ) : ViewModel() {
 
 

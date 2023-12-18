@@ -8,6 +8,7 @@ import com.graph.apollo.domain.mappers.toAnimeCharacterDescription
 import com.graph.apollo.domain.mappers.toAnimeCharacterPageItem
 import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
+import com.graph.apollo.utils.Logger
 import com.graph.type.CharacterSort
 
 class ApolloAnimeCharactersClient(
@@ -25,10 +26,12 @@ class ApolloAnimeCharactersClient(
             .query(CharactersPageQuery(
                 page = Optional.present(page),
                 perPage = Optional.present(perPage),
-                sort = Optional.present(null),
+                sort = Optional.present(listOf(CharacterSort.SEARCH_MATCH)),
                 search = Optional.present(search)
             ))
             .execute()
+
+        Logger.log(response.exception?.stackTraceToString() ?: "ALL OK")
 
         return response.data?.Page?.characters?.mapNotNull {
             it?.toAnimeCharacterPageItem()
