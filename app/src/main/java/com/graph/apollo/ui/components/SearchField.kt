@@ -22,10 +22,11 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchField(
+    initialSearchQuery : String,
     onSearchButtonClick : (query : String) -> Unit = {}
 ) {
     var text by remember {
-        mutableStateOf("")
+        mutableStateOf(initialSearchQuery)
     }
 
     Row (modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
@@ -51,5 +52,5 @@ fun SearchField(
 @Preview(showBackground = true)
 @Composable
 fun Preview(){
-    SearchField()
+    SearchField("")
 }

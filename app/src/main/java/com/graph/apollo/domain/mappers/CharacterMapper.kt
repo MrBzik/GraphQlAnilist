@@ -2,7 +2,6 @@ package com.graph.apollo.domain.mappers
 
 import com.graph.CharactersPageQuery
 import com.graph.SingleCharacterByIdQuery
-import com.graph.SingleCharacterByNameQuery
 import com.graph.apollo.domain.models.AnimeCharacterDescription
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
 
@@ -11,7 +10,8 @@ fun SingleCharacterByIdQuery.Character.toAnimeCharacterDescription(): AnimeChara
         nameNative = name?.native ?: "Unknown",
         imageUrl = image?.large,
         description = description ?: "Nothing to say",
-        alternativeNames = name?.alternative
+        alternativeNames = name?.alternative,
+        nameFull = name?.full ?: "No name?",
     )
 }
 

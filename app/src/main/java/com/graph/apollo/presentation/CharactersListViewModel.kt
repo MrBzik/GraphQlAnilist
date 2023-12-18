@@ -28,7 +28,7 @@ class CharactersListViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val searchQuery = MutableStateFlow("")
+    private val searchQuery = MutableStateFlow("Rem")
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val charactersPagingFlow = searchQuery.flatMapLatest { query ->
@@ -62,6 +62,8 @@ class CharactersListViewModel @Inject constructor(
     fun updateSearchQuery(value : String) {
         searchQuery.value = value
     }
+
+    fun getSearchQuery() = searchQuery.value
 
 
 
