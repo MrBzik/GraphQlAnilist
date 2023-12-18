@@ -9,15 +9,18 @@ import androidx.paging.cachedIn
 import com.graph.apollo.data.remote.AnimeCharactersClient
 import com.graph.apollo.domain.CharactersPageLoader
 import com.graph.apollo.domain.CharactersPagingSource
+import com.graph.apollo.domain.Messages
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
 import com.graph.apollo.usecases.UseCaseGetLastSearchQuery
 import com.graph.apollo.usecases.UseCaseSaveLastSearchQuery
 import com.graph.type.CharacterSort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,6 +38,8 @@ class CharactersListViewModel @Inject constructor(
         getNewCharactersPagingFlow(query)
     }.cachedIn(viewModelScope)
 
+
+    val messagesChannel = Channel<Messages>()
 
     private suspend fun loadNewCharactersPage(page: Int, perPage: Int, sort : CharacterSort = CharacterSort.RELEVANCE, search: String) : List<AnimeCharacterPageItem> {
         return charactersClient.getCharactersPage(page, perPage, sort, search)
@@ -55,11 +60,17 @@ class CharactersListViewModel @Inject constructor(
                 CharactersPagingSource(charactersLoader)
             }
         ).flow
-
     }
 
 
     fun updateSearchQuery(value : String) {
+        if(value == searchQuery.value){
+            viewModelScope.launch {
+                messagesChannel.send(Messages.ERROR_SAME_QUERY)
+            }
+            return
+        }
+
         searchQuery.value = value
         saveLastSearchQuery(value)
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Apollo</string>
+    <string name="character_name">Имя:</string>
+    <string name="character_age">Возраст:</string>
+    <string name="character_gender">Пол:</string>
+
+    <!--    Hints-->
+    <string name="hint_search_character">Введите имя персонажа</string>
+
+    <!--    Toasts-->
+    <string name="error_same_search_query">Измените запрос</string>
+
+</resources>

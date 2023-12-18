@@ -22,8 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun SearchField(
+    label : String,
     initialSearchQuery : String,
-    onSearchButtonClick : (query : String) -> Unit = {}
+    onSearchButtonClick : (query : String) -> Unit
 ) {
     var text by remember {
         mutableStateOf(initialSearchQuery)
@@ -34,7 +35,7 @@ fun SearchField(
             modifier = Modifier.weight(1f),
             value = text,
             onValueChange = { text = it },
-            label = { Text("Найти персонажа") },
+            label = { Text(label) },
             singleLine = true,
             trailingIcon = {
                 IconButton(onClick = {
@@ -52,5 +53,5 @@ fun SearchField(
 @Preview(showBackground = true)
 @Composable
 fun Preview(){
-    SearchField("Rem")
+    SearchField("Label", "Initial value"){}
 }

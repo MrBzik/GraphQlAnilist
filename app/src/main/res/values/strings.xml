@@ -3,4 +3,11 @@
     <string name="character_name">Name:</string>
     <string name="character_age">Age:</string>
     <string name="character_gender">Gender:</string>
+
+
+<!--    Hints-->
+    <string name="hint_search_character">Character\'s name</string>
+
+<!--    Toasts-->
+    <string name="error_same_search_query">Change search query</string>
 </resources>
