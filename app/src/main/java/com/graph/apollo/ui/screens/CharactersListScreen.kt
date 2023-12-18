@@ -34,6 +34,7 @@ class CharactersListScreen : Screen {
         Column (modifier = Modifier.fillMaxSize()) {
 
             SearchField(
+                initialSearchQuery = charactersViewModel.getSearchQuery(),
                 onSearchButtonClick = charactersViewModel::updateSearchQuery
             )
 
