@@ -13,6 +13,7 @@ import com.graph.apollo.domain.Messages
 import com.graph.apollo.domain.models.AnimeCharacterPageItem
 import com.graph.apollo.usecases.UseCaseGetLastSearchQuery
 import com.graph.apollo.usecases.UseCaseSaveLastSearchQuery
+import com.graph.apollo.utils.Logger
 import com.graph.type.CharacterSort
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,17 +37,20 @@ class CharactersListViewModel @Inject constructor(
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val charactersPagingFlow = searchQuery.flatMapLatest { query ->
-        getNewCharactersPagingFlow(query)
+        getNewCharactersPagingFlow(query )
     }.cachedIn(viewModelScope)
 
 
-    val messagesChannel = Channel<Messages>()
+    private val messagesChannel = Channel<Messages>()
+
+    val messagesFlow = messagesChannel.receiveAsFlow()
 
     private suspend fun loadNewCharactersPage(page: Int, perPage: Int, sort : CharacterSort = CharacterSort.RELEVANCE, search: String) : List<AnimeCharacterPageItem> {
-        return charactersClient.getCharactersPage(page, perPage, sort, search)
+        return  charactersClient.getCharactersPage(page, perPage, sort, search)
     }
 
     private suspend fun getNewCharactersPagingFlow(query: String) : Flow<PagingData<AnimeCharacterPageItem>> {
+
 
         val charactersLoader : CharactersPageLoader = { pageIndex, pageSize ->
             loadNewCharactersPage(page = pageIndex, perPage = pageSize, search = query)
@@ -64,14 +69,15 @@ class CharactersListViewModel @Inject constructor(
 
 
     fun updateSearchQuery(value : String) {
+
         if(value == searchQuery.value){
             viewModelScope.launch {
                 messagesChannel.send(Messages.ERROR_SAME_QUERY)
             }
             return
         }
-
         searchQuery.value = value
+
         saveLastSearchQuery(value)
     }
 

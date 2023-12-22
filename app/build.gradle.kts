@@ -6,7 +6,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.apollographql.apollo3").version("4.0.0-beta.4")
     id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+//    id("com.google.devtools.ksp")
+    id ("kotlin-kapt")
 }
 
 apollo {
@@ -26,7 +27,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.graph.apollo.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -75,21 +76,32 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    //Testing
     testImplementation("junit:junit:4.13.2")
+
+    androidTestImplementation("junit:junit:4.13.2")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    androidTestImplementation ("com.google.truth:truth:1.1.3")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.5.4")
 
+    //GraphQl Apollo
     implementation("com.apollographql.apollo3:apollo-runtime:$apolloVersion")
 
 
     // Dagger
     implementation("com.google.dagger:hilt-android:$hiltVersion")
-    ksp ("com.google.dagger:hilt-android-compiler:$hiltVersion")
-    ksp ("androidx.hilt:hilt-compiler:1.1.0")
+    kapt ("com.google.dagger:hilt-android-compiler:$hiltVersion")
+    kapt ("androidx.hilt:hilt-compiler:1.1.0")
     implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
 
     // Coil
@@ -100,9 +112,9 @@ dependencies {
     implementation ("androidx.paging:paging-runtime-ktx:$paging_version")
 
     // Room
-    implementation ("androidx.room:room-ktx:$room_version")
-    ksp ("androidx.room:room-compiler:$room_version")
-    implementation ("androidx.room:room-paging:$room_version")
+//    implementation ("androidx.room:room-ktx:$room_version")
+//    ksp ("androidx.room:room-compiler:$room_version")
+//    implementation ("androidx.room:room-paging:$room_version")
 
     //Voyager Nav
     implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")

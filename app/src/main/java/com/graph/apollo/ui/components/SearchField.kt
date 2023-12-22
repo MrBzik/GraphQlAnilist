@@ -18,7 +18,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
+import com.graph.apollo.utils.TestTags
 
 @Composable
 fun SearchField(
@@ -32,13 +34,15 @@ fun SearchField(
 
     Row (modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
         TextField(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f)
+                .testTag(TestTags.SEARCH_FIELD)
+            ,
             value = text,
             onValueChange = { text = it },
             label = { Text(label) },
             singleLine = true,
             trailingIcon = {
-                IconButton(onClick = {
+                IconButton(modifier = Modifier.testTag(TestTags.SEARCH_BUTTON), onClick = {
                     onSearchButtonClick(text)
                 }) {
 
